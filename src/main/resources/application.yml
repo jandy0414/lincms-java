@@ -1,0 +1,46 @@
+#默认使用配置
+
+spring:
+  profiles:
+    active: dev
+
+
+#公共配置与profiles选择无关 ;
+mybatis:
+  type-aliases-package: cn.chenxins.cms.model.entity
+  mapper-locations: classpath:mapper/*.xml
+
+
+
+mapper:
+  mappers:
+  - cn.chenxins.utils.MyMapper
+  not-empty: false
+  i-d-e-n-t-i-t-y: MYSQL
+
+server:
+  port: 8082
+---
+
+#开发配置
+spring:
+  profiles: dev
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/lincms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: jandy123
+    driver-class-name: com.mysql.jdbc.Driver
+    #使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  redis:
+    database: 1
+    host: localhost
+    port: 6379
+    jedis:
+      pool:
+        max-active: 100
+        max-wait: -1
+        max-idle: 10
+        min-idle: 2
