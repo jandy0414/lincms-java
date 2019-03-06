@@ -2,35 +2,25 @@ package cn.chenxins.cms.controller;
 
 import cn.chenxins.authorization.annotation.AdminRequired;
 import cn.chenxins.authorization.annotation.LoggerReg;
-import cn.chenxins.authorization.annotation.LoginRequired;
-import cn.chenxins.authorization.annotation.RefreshTokenRequired;
-import cn.chenxins.authorization.manager.TokenManager;
 import cn.chenxins.cms.model.entity.LinGroup;
-import cn.chenxins.cms.model.entity.LinUser;
 import cn.chenxins.cms.model.json.*;
 import cn.chenxins.cms.service.AdminService;
-import cn.chenxins.cms.service.UserService;
 import cn.chenxins.exception.BussinessErrorException;
 import cn.chenxins.exception.ParamValueException;
-import cn.chenxins.exception.TokenException;
-import cn.chenxins.utils.ConstConfig;
+import cn.chenxins.utils.JsonUtils;
 import cn.chenxins.utils.MetaJson;
 import cn.chenxins.utils.ResultJson;
-import cn.chenxins.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @EnableAutoConfiguration
@@ -104,7 +94,8 @@ public class AdminConroller {
             if (userPage==null) {
                 return ResultJson.BussinessException("找不到用户信息");
             }
-            return userPage;
+//            return userPage;
+            return JsonUtils.objectToJsonSpecial(userPage);//为适应前端做特殊处理
         }
         catch (BussinessErrorException be){
             return ResultJson.BussinessException(be.getLocalizedMessage());

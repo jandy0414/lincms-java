@@ -39,6 +39,24 @@ public class JsonUtils {
 		}
     	return null;
     }
+
+    /**
+     * 将对象转换成json字符串。并且报isSuper转成super 以适配前端
+     * <p>Title: pojoToJson</p>
+     * <p>Description: </p>
+     * @param data
+     * @return
+     */
+    public static String objectToJsonSpecial(Object data) {
+        try {
+            String string = MAPPER.writeValueAsString(data);
+
+            return string.replaceAll("isSuper","super");
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     
     /**
      * 将json结果集转化为对象

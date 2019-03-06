@@ -14,6 +14,7 @@ import cn.chenxins.exception.BussinessErrorException;
 import cn.chenxins.exception.ParamValueException;
 import cn.chenxins.exception.TokenException;
 import cn.chenxins.utils.ConstConfig;
+import cn.chenxins.utils.JsonUtils;
 import cn.chenxins.utils.ResultJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -199,7 +200,9 @@ public class UserConroller {
             if (linUser==null) {
                 return ResultJson.BussinessException("找不到用户信息");
             }
-            return new UserJsonOut(linUser);
+            UserJsonOut out=new UserJsonOut(linUser);
+            return JsonUtils.objectToJsonSpecial(out);  //为适应前端做特殊处理
+//            return out;
         }
         catch (BussinessErrorException be){
             return ResultJson.BussinessException(be.getLocalizedMessage());
@@ -247,13 +250,15 @@ public class UserConroller {
             }
             UserJsonOut userOut=new UserJsonOut(user);
             if (user.getGroupId()==null) {
-                return userOut;
+//                return userOut;
+                return  JsonUtils.objectToJsonSpecial(userOut);//为了前端做适配的
             }
 
             HashMap<String, List> res=userService.getAuthList(user.getGroupId());
 
             userOut.setAuths(res);
-            return userOut;
+//            return userOut;
+            return  JsonUtils.objectToJsonSpecial(userOut);//为了前端做适配的
         }
         catch (TokenException be){
             return ResultJson.BussinessException(be.getLocalizedMessage());
